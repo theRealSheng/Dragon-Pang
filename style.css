@@ -1,0 +1,43 @@
+
+/* ---- reset ---- */
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  color: white;
+  background: green;
+  width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+
+/* ---- typography ---- */
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  background: grey;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 30%;
+}
+
+canvas {
+    border: 1px solid black;
+    width:900px;
+    height: 600px;
+    margin-top: -300px;
+}
