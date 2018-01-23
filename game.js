@@ -2,6 +2,7 @@
 'use strict';
 
 function Game(mainElement) {
+
     var self = this;
 
     self.mainElement = mainElement;
@@ -27,6 +28,7 @@ function Game(mainElement) {
     self.bullet = new Bullet(self.ctx, self.width, self.height, self.player.x, self.player.y, self.player.size)
 
     document.addEventListener('keydown', function(event){
+
         var code = event.keyCode;
         if (code === 68 || code === 39) {
             self.player.moveRight();
@@ -104,6 +106,7 @@ function Game(mainElement) {
 }
 
 Game.prototype.destroy = function () {
+    
     var self = this;
     self.finished = true;
 

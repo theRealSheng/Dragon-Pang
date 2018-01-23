@@ -2,6 +2,7 @@
 'use strict';
 
 function Player(ctx, width, height) {
+
     var self = this;
 
     self.size = 50;
@@ -16,18 +17,21 @@ function Player(ctx, width, height) {
 }
 
 Player.prototype.moveRight = function (code) {
+
     var self = this;
 
     self.x += 15
 };
 
 Player.prototype.moveLeft = function (code) {
+
     var self = this;
 
     self.x -= 15
 };
 
 Player.prototype.update = function () {
+
     var self = this;
     
     if (self.x > self.gameWidth - self.size) {
@@ -40,6 +44,7 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.draw = function () {
+    
     var self = this;
 
     self.ctx.fillStyle = 'green';
