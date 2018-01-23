@@ -1,3 +1,4 @@
+
 'use strict';
 
 function Game(mainElement) {
@@ -9,6 +10,9 @@ function Game(mainElement) {
     self.score = 0;
     self.width = 900;
     self.height = 600;
+    self.rockStartingPositionX = 450;
+    self.rockStartingPositionY = 180;
+    self.rockRadius = 100;
 
     // create dom elements'
     self.canvasElement = document.createElement('canvas');
@@ -19,86 +23,82 @@ function Game(mainElement) {
     self.ctx = self.canvasElement.getContext('2d');
 
     self.player = new Player(self.ctx, self.width, self.height);
-    // create array of enemies
+    self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartingPositionX, self.rockStartingPositionY, self.rockRadius);
+    self.bullet = new Bullet(self.ctx, self.width, self.height, self.player.x, self.player.y, self.player.size)
 
-
-
-    self.handleKeyDown = function (event) {
-        var key = event.key.toLowerCase();
-        switch (key) {
-            case 'a':
-                self.player.setDirection('W');
-                break;
-            case 'd':
-                self.player.setDirection('E');
-                break;
-            case 's':
-                self.player.setDirection('S');
-                break;
-            case 'w':
-                self.player.setDirection('N');
-                break;
+    document.addEventListener('keydown', function(event){
+        var code = event.keyCode;
+        if (code === 68 || code === 39) {
+            self.player.moveRight();
         }
 
-    };
+        if (code === 65 || code === 37) {
+            self.player.moveLeft();
+        }
 
-    document.addEventListener('keydown', self.handleKeyDown);
+        // Code for shooting
+        if (code === 87 || code === 38 || code === 32){
+            self.bullet.draw();
+        }
+    });
 
     function doFrame() {
 
         // logic
-        self.score;
+        // @todo update self.score;
+
         self.player.update();
+        self.rock.update();
+        self.bullet.update();
 
         // drawing
         self.ctx.clearRect(0, 0, self.width, self.height);
 
-
-        //***** Drawing 
-        self.ctx.fillStyle = "black";
-        self.ctx.fillRect(0, 0, 900, 80);
-
-        // Lives
-        self.ctx.font = "20px Comic Sans MS";
-        self.ctx.fillStyle = "green";
-        self.ctx.fillText("Lives: ", 20, 50);
-
-        // Stage
-        self.ctx.font = "20px Comic Sans MS";
-        self.ctx.fillStyle = "green";
-        self.ctx.fillText("Stage: ", 250, 50);
-
-        // Time Remaining text
-        self.ctx.font = "20px Comic Sans MS";
-        self.ctx.fillStyle = "red";
-        self.ctx.fillText("Time Remaining: ", 450, 50);
-
-        // Position title
-        self.ctx.font = '20px Arial, sans-serif';
-        self.ctx.fillStyle = "red";
-        self.ctx.fillText("Points: " + self.score, 750, 50);
-
-        // sky area
-        self.ctx.fillStyle = "lightblue";
-        self.ctx.fillRect(0, 80, 900, window.innerHeight - 150);
-
-        // walking are
-        self.ctx.fillStyle = "brown";
-        self.ctx.fillRect(0, 520, 900, 80);
+        backgroundScreen(self.ctx, self.score)
 
         self.player.draw();
-
-        // Rock
-
-        self.ctx.arc(450, 400, 90, 0 , Math.PI * 2, false);
-        self.ctx.fillStyle = 'blue';
-        self.ctx.fill();
-        self.ctx.stroke();
+        self.rock.draw();
+        self.bullet.draw();
 
         if (!self.finished) {
             window.requestAnimationFrame(doFrame);
         }
     }
+
+    function backgroundScreen(ctx, score) {
+
+        //***** Drawing 
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, 900, 80);
+
+        // Lives
+        ctx.font = "20px Comic Sans MS";
+        ctx.fillStyle = "green";
+        ctx.fillText("Lives: ", 20, 50);
+
+        // Stage
+        ctx.font = "20px Comic Sans MS";
+        ctx.fillStyle = "green";
+        ctx.fillText("Stage: ", 250, 50);
+
+        // Time Remaining text
+        ctx.font = "20px Comic Sans MS";
+        ctx.fillStyle = "red";
+        ctx.fillText("Time Remaining: ", 450, 50);
+
+        // Position title
+        ctx.font = '20px Arial, sans-serif';
+        ctx.fillStyle = "red";
+        ctx.fillText("Points: " + score, 750, 50);
+
+        // sky area
+        ctx.fillStyle = "lightblue";
+        ctx.fillRect(0, 80, 900, window.innerHeight - 150);
+
+        // walking area
+        ctx.fillStyle = "brown";
+        ctx.fillRect(0, 520, 900, 80);
+    };
 
     window.requestAnimationFrame(doFrame);
 }

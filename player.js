@@ -1,3 +1,4 @@
+
 'use strict';
 
 function Player(ctx, width, height) {
@@ -11,52 +12,36 @@ function Player(ctx, width, height) {
     self.gameHeight = height;
 
     self.x = self.gameWidth / 2;
-    self.y = self.gameHeight /2;
-    self.direction = null;
+    self.y = 470;
 }
 
-Player.prototype.setDirection = function (direction) {
+Player.prototype.moveRight = function (code) {
     var self = this;
 
-    // @todo not allow to change to opposite direction
-    self.direction = direction;
-}
+    self.x += 15
+};
+
+Player.prototype.moveLeft = function (code) {
+    var self = this;
+
+    self.x -= 15
+};
 
 Player.prototype.update = function () {
     var self = this;
-
-    switch (self.direction) {
-        case 'E':
-            self.x += 10;
-            break;
-        case 'W':
-            self.x -= 10;
-            break;
-        case 'N':
-            // self.y -= 10;
-            break;
-    }
-
-    if (self.x > self.gameWidth) {
-        self.x = 0;
+    
+    if (self.x > self.gameWidth - self.size) {
+        self.x = self.gameWidth - self.size;
     }
 
     if (self.x < 0) {
-        self.x = self.gameWidth;
+        self.x = 0;
     }
-
-    if (self.y > self.gameHeight) {
-        self.y = 0;
-    }
-
-    if (self.y < 0) {
-        self.y = self.gameHeight;
-    }
-}
+};
 
 Player.prototype.draw = function () {
     var self = this;
 
     self.ctx.fillStyle = 'green';
-    self.ctx.fillRect(450, 470, self.size, self.size);
-}
+    self.ctx.fillRect(self.x, 470, self.size, self.size);
+};
