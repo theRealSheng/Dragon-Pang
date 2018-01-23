@@ -14,6 +14,9 @@ function Player(ctx, width, height) {
 
     self.x = self.gameWidth / 2;
     self.y = 470;
+
+    self.bullet = null;
+
 }
 
 Player.prototype.moveRight = function (code) {
@@ -44,9 +47,17 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.draw = function () {
-    
+
     var self = this;
 
     self.ctx.fillStyle = 'green';
     self.ctx.fillRect(self.x, 470, self.size, self.size);
 };
+
+Player.prototype.shot = function () {
+    
+    var self = this;
+
+    self.bullet = new Bullet(self.ctx, self.width, self.height, self.x, self.y, self.size);
+
+}

@@ -2,7 +2,7 @@
 'use strict';
 
 function Game(mainElement) {
-
+    
     var self = this;
 
     self.mainElement = mainElement;
@@ -25,7 +25,6 @@ function Game(mainElement) {
 
     self.player = new Player(self.ctx, self.width, self.height);
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartingPositionX, self.rockStartingPositionY, self.rockRadius);
-    self.bullet = new Bullet(self.ctx, self.width, self.height, self.player.x, self.player.y, self.player.size)
 
     document.addEventListener('keydown', function(event){
 
@@ -40,7 +39,8 @@ function Game(mainElement) {
 
         // Code for shooting
         if (code === 87 || code === 38 || code === 32){
-            self.bullet.draw();
+            console.log('shot');
+            self.player.shot();
         }
     });
 
@@ -51,7 +51,6 @@ function Game(mainElement) {
 
         self.player.update();
         self.rock.update();
-        self.bullet.update();
 
         // drawing
         self.ctx.clearRect(0, 0, self.width, self.height);
@@ -60,7 +59,11 @@ function Game(mainElement) {
 
         self.player.draw();
         self.rock.draw();
-        self.bullet.draw();
+        
+        if (self.player.bullet) {
+            self.player.bullet.update();
+            self.player.bullet.draw();
+        }
 
         if (!self.finished) {
             window.requestAnimationFrame(doFrame);
@@ -106,7 +109,6 @@ function Game(mainElement) {
 }
 
 Game.prototype.destroy = function () {
-    
     var self = this;
     self.finished = true;
 
