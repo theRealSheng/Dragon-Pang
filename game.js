@@ -11,8 +11,8 @@ function Game(mainElement) {
     self.score = 0;
     self.width = 900;
     self.height = 600;
-    self.rockStartPositionX = 450;
-    self.rockStartPositionY = 180;
+    self.rockStartPositionX = 400;
+    self.rockStartPositionY = 150;
     self.rockWidth;
     self.rockHeight; 
 
@@ -28,6 +28,9 @@ function Game(mainElement) {
 
     self.background = new Image();
     self.background.src = './img/background2.jpg';
+
+    self.ballLives = new Image();
+    self.ballLives.src = './img/ballILives.png';
 
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 180, self.rockHeight = 180, true, self.rockArray);
 

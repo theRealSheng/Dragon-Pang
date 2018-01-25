@@ -7,7 +7,7 @@ function Bullet(ctx, width, height, playerX, bulletY, rockArray) {
     self.ctx = ctx;
     self.width = width;
     self.height = height;
-    self.x = playerX + 20;
+    self.x = playerX;
     self.y = bulletY;
     self.bulletHeight = 0;
     self.bulletWidth = 10;
@@ -39,7 +39,7 @@ Bullet.prototype.draw = function () {
     var self = this;
 
     self.ctx.fillStyle = 'red';
-    self.ctx.fillRect(self.x + 30, self.height - 30, self.bulletWidth, self.bulletHeight);
+    self.ctx.fillRect(self.x+ 70, self.height -30, self.bulletWidth, self.bulletHeight);
 };
 
 // Bullet.prototype.hitting = function () {
