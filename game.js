@@ -25,7 +25,7 @@ function Game(mainElement) {
     self.changeSize = 2;
     self.startHitTime;
     self.Gametime;
-    self.inmortal = false;
+    self.totalHitTime
 
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 100, self.rockHeight = 100, true, self.rockArray);
 
@@ -37,7 +37,7 @@ function Game(mainElement) {
 
     self.ctx = self.canvasElement.getContext('2d');
 
-    self.player = new Player(self.ctx, self.width, self.height, self.inmortal);
+    self.player = new Player(self.ctx, self.width, self.height);
 
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth, self.rockHeight, true, self.rockArray)
     self.rockArray.push(self.rock);
@@ -96,7 +96,7 @@ function Game(mainElement) {
 
     function rockCollidesGoku(rock, player){
 
-        if (!self.inmortal){ 
+        if (!self.player.inmortal){ 
             self.rockArray.forEach(rock => {
 
                 if (player.x < rock.rockX + rock.rockWidth && 
@@ -104,12 +104,13 @@ function Game(mainElement) {
                     player.y < rock.rockY + rock.rockHeight &&
                     player.size + player.y > rock.rockY) {
                     console.log('hit');
+                    
                     self.startHitTime = new Date();
                     
                     self.player.lives -= 1;
                     console.log(self.player.lives);
                     
-                    self.inmortal = true;
+                    self.player.inmortal = true;
                 }
 
                 if (player.lives < 1) {
@@ -141,12 +142,13 @@ function Game(mainElement) {
 
         self.player.update();
 
-        if (self.inmortal){
+        if (self.player.inmortal){
 
             self.totalHitTime = self.player.gokuTime - self.startHitTime;
 
-            self.player.untouchable(self.totalHitTime);
-
+            if (self.totalHitTime > 3000){
+                self.player.inmortal = false;
+            }
         }
 
         self.rockArray.forEach(rock => rock.update());
