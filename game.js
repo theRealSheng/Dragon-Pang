@@ -24,10 +24,10 @@ function Game(mainElement) {
     self.stage = 1;
     self.changeSize = 2;
     self.startHitTime;
-    self.Gametime;
+    self.gameTime = 60;
     self.totalHitTime
 
-    self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 100, self.rockHeight = 100, true, self.rockArray);
+    self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 180, self.rockHeight = 180, true, self.rockArray);
 
     // create dom elements'
     self.canvasElement = document.createElement('canvas');
@@ -86,10 +86,6 @@ function Game(mainElement) {
                 else{
                     self.rockArray.splice(self.rockArray.indexOf(rock), 1);
                 }
-
-                if (self.rockArray.length === 0){
-                    self.onEnd();
-                }
             }
         });
     };
@@ -104,17 +100,13 @@ function Game(mainElement) {
                     player.y < rock.rockY + rock.rockHeight &&
                     player.size + player.y > rock.rockY) {
                     console.log('hit');
-                    
+
                     self.startHitTime = new Date();
                     
                     self.player.lives -= 1;
                     console.log(self.player.lives);
                     
                     self.player.inmortal = true;
-                }
-
-                if (player.lives < 1) {
-                    self.onEnd();
                 }
             });
         }
@@ -161,10 +153,17 @@ function Game(mainElement) {
             }
         }
 
+
+        if (self.rockArray.length === 0 || self.player.lives < 1 ) {
+            self.onEnd();
+        }
+
         // drawing
         self.ctx.clearRect(0, 0, self.width, self.height);
 
         backgroundScreen(self.ctx, self.score, self.stage, self.player.lives, self.gameTime)
+        
+        timeForGame(self.gameTime);
 
         self.player.draw();
         self.rockArray.forEach(rock => rock.draw());
@@ -176,6 +175,13 @@ function Game(mainElement) {
         if (!self.finished) {
             window.requestAnimationFrame(doFrame);
         }
+    }
+
+    function timeForGame (time) {
+        var self = this;
+
+        var timming = new Date();
+        return time - timming.getSeconds();
     }
 
     function backgroundScreen(ctx, score, stage, lives, time) {
@@ -208,7 +214,7 @@ function Game(mainElement) {
         // Time Remaining text
         ctx.font = "25px Comic Sans MS";
         ctx.fillStyle = "red";
-        ctx.fillText("Time Remaining: " + time, 425, 50);
+        ctx.fillText("Time Remaining:   " + time, 425, 50);
 
         // Position title
         ctx.font = '25px Comic Sans MS';

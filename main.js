@@ -55,13 +55,8 @@ function main() {
 
         game.onGameOver(function () {
             destroyGame();
-            buildGameOver();
-        });
-        
-        // window.setTimeout(function () {
-        //     destroyGame();
-        //     buildGameOver();
-        // }, 50000);
+            buildGameOver(game.score);
+        });   
     }
 
     function destroyGame() {
@@ -78,7 +73,7 @@ function main() {
         buildGame();
     };
 
-    function buildGameOver() {
+    function buildGameOver(score) {
         stage = 'gameOver';
 
         // create dom elements
@@ -90,7 +85,7 @@ function main() {
         gameOverElement.appendChild(title);
 
         var yourScore = document.createElement('h2');
-        yourScore.innerText = 'Your score: ' + game.score;
+        yourScore.innerText = 'Your score: ' + score;
         gameOverElement.appendChild(yourScore);
 
         playAgainButton = document.createElement('button');
