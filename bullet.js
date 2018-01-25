@@ -1,16 +1,21 @@
 
 'use strict';
 
-function Bullet(ctx, width, height, playerX, playerY, selfSize) {
+function Bullet(ctx, width, height, playerX, bulletY, rockArray) {
     var self = this;
 
     self.ctx = ctx;
-    self.x = playerX;
-    self.y = playerY;
     self.width = width;
     self.height = height;
-    self.bulletHeight = selfSize;
-    self.dateCreator = new Date();
+    self.x = playerX + 20;
+    self.y = bulletY;
+    self.bulletHeight = 0;
+    self.bulletWidth = 10;
+    self.dy = 10;
+    self.rockArray = rockArray;
+    self.startTime = new Date();
+    self.timeLapse;
+    self.totalTime;
 };
 
 
@@ -19,21 +24,20 @@ Bullet.prototype.draw = function () {
     var self = this;
 
     self.ctx.fillStyle = 'red';
-    self.ctx.fillRect(self.x +15 , self.y, 20, self.bulletHeight);
+    self.ctx.fillRect(self.x, self.y, self.bulletWidth, self.bulletHeight);
 };
 
 Bullet.prototype.update = function () {
 
     var self = this;
 
-    self.bulletHeight -= 20;
+    self.timeLapse = new Date();
 
-    if (self.bulletHeight > self.height + 80) {
-        self.bulletHeight = self.height + 80;
+    self.bulletHeight -= self.dy;
+
+    if (self.bulletHeight < -440 ){
+        self.bulletHeight = -440;
     }
 
-    // if (self.dateCreator.getSecond() - self.player.datenow.getSecond() > 5) {
-    //     self.ctx.clear();
-    // }
-}
-
+    self.totalTime = self.timeLapse - self.startTime;
+};

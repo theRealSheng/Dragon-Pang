@@ -6,31 +6,28 @@ function Player(ctx, width, height) {
     var self = this;
 
     self.size = 50;
-
     self.ctx = ctx;
-
     self.gameWidth = width;
     self.gameHeight = height;
-
     self.x = self.gameWidth / 2;
     self.y = 470;
-
     self.bullet = null;
-
+    self.lives = 3;
+    
 }
 
 Player.prototype.moveRight = function (code) {
 
     var self = this;
 
-    self.x += 15
+    self.x += 10;
 };
 
 Player.prototype.moveLeft = function (code) {
 
     var self = this;
 
-    self.x -= 15
+    self.x -= 10;
 };
 
 Player.prototype.update = function () {
@@ -53,11 +50,3 @@ Player.prototype.draw = function () {
     self.ctx.fillStyle = 'green';
     self.ctx.fillRect(self.x, 470, self.size, self.size);
 };
-
-Player.prototype.shot = function () {
-    
-    var self = this;
-
-    self.bullet = new Bullet(self.ctx, self.width, self.height, self.x, self.y, self.size);
-
-}

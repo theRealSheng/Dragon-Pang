@@ -50,13 +50,18 @@ function main() {
     // -- GAME
 
     function buildGame() {
-        stage = 'game';
+        stage = '1';
         game = new Game(mainElement);
 
-        window.setTimeout(function () {
+        game.onGameOver(function () {
             destroyGame();
             buildGameOver();
-        }, 50000);
+        });
+        
+        // window.setTimeout(function () {
+        //     destroyGame();
+        //     buildGameOver();
+        // }, 50000);
     }
 
     function destroyGame() {
@@ -67,6 +72,7 @@ function main() {
 
     var gameOverElement;
     var playAgainButton;
+
     var handlePlayAgainClick = function () {
         destroyGameOver();
         buildGame();
