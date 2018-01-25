@@ -15,13 +15,18 @@ function Game(mainElement) {
     self.rockStartPositionY = 180;
     self.rockWidth;
     self.rockHeight; 
+
+
     self.bullet;
     self.bulletY = 520;
     self.onEnd;
     self.rockArray = [];
     self.stage = 1;
-    self.lives; 
     self.changeSize = 2;
+    self.startHitTime;
+    self.Gametime;
+    self.inmortal = false;
+
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 100, self.rockHeight = 100, true, self.rockArray);
 
     // create dom elements'
@@ -32,9 +37,7 @@ function Game(mainElement) {
 
     self.ctx = self.canvasElement.getContext('2d');
 
-    self.player = new Player(self.ctx, self.width, self.height);
-
-    self.lives = self.player.lives;
+    self.player = new Player(self.ctx, self.width, self.height, self.inmortal);
 
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth, self.rockHeight, true, self.rockArray)
     self.rockArray.push(self.rock);
@@ -52,7 +55,6 @@ function Game(mainElement) {
 
         // Code for shooting
         if (code === 87 || code === 38 || code === 32){
-
             self.bullet = new Bullet(self.ctx, self.width, self.height, self.player.x, self.bulletY);
         }
     });
@@ -94,20 +96,27 @@ function Game(mainElement) {
 
     function rockCollidesGoku(rock, player){
 
-        self.rockArray.forEach(rock => {
-            if (player.x < rock.rockX + rock.rockWidth &&
-                player.x + player.size > rock.rockX &&
-                player.y < rock.rockY + rock.rockHeight &&
-                player.size + player.y > rock.rockY) {
-                self.startHitTime = new Date();
+        if (!self.inmortal){ 
+            self.rockArray.forEach(rock => {
 
-                player.lives -= 1;    
+                if (player.x < rock.rockX + rock.rockWidth && 
+                    player.x + player.size > rock.rockX &&
+                    player.y < rock.rockY + rock.rockHeight &&
+                    player.size + player.y > rock.rockY) {
+                    console.log('hit');
+                    self.startHitTime = new Date();
+                    
+                    self.player.lives -= 1;
+                    console.log(self.player.lives);
+                    
+                    self.inmortal = true;
+                }
 
-                if (player.lives < 1){
+                if (player.lives < 1) {
                     self.onEnd();
                 }
-            }
-        });
+            });
+        }
     };
 
     function shotTimeLapse() {
@@ -118,10 +127,6 @@ function Game(mainElement) {
 
     };
 
-    function freeHitTime() {
-
-    }
-
     function doFrame() { 
 
         // logic
@@ -131,10 +136,18 @@ function Game(mainElement) {
             collionDetection(self.bullet, self.rock);
         }
 
-        
+
         self.rockArray.forEach(rock => rockCollidesGoku(rock, self.player));
 
         self.player.update();
+
+        if (self.inmortal){
+
+            self.totalHitTime = self.player.gokuTime - self.startHitTime;
+
+            self.player.untouchable(self.totalHitTime);
+
+        }
 
         self.rockArray.forEach(rock => rock.update());
 
@@ -149,14 +162,10 @@ function Game(mainElement) {
         // drawing
         self.ctx.clearRect(0, 0, self.width, self.height);
 
-        backgroundScreen(self.ctx, self.score, self.stage, self.lives)
+        backgroundScreen(self.ctx, self.score, self.stage, self.player.lives, self.gameTime)
 
         self.player.draw();
         self.rockArray.forEach(rock => rock.draw());
-
-        // self.rockArray.forEach((rock)=>{
-        //     if(rock.x === rock)
-        // })
 
         if (self.bullet !== undefined){
             self.bullet.draw();
@@ -167,30 +176,41 @@ function Game(mainElement) {
         }
     }
 
-    function backgroundScreen(ctx, score, stage, lives) {
+    function backgroundScreen(ctx, score, stage, lives, time) {
 
         //***** Drawing 
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 900, 80);
 
         // Lives
-        ctx.font = "20px Comic Sans MS";
+        ctx.font = "25px Comic Sans MS";
         ctx.fillStyle = "green";
         ctx.fillText("Lives: " + lives, 20, 50);
 
+        // Lives W/ Dragon Balls
+        for(let i = 1; i <= lives; i++){
+
+            let spaceBetween = 35;
+
+            ctx.beginPath();
+            ctx.fillStyle = 'yellow';
+            ctx.arc(110 + (spaceBetween * i), 40, 15, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
         // Stage
-        ctx.font = "20px Comic Sans MS";
+        ctx.font = "25px Comic Sans MS";
         ctx.fillStyle = "green";
-        ctx.fillText("Stage: " + stage, 250, 50);
+        ctx.fillText("Stage:   " + stage, 250, 50);
 
         // Time Remaining text
-        ctx.font = "20px Comic Sans MS";
+        ctx.font = "25px Comic Sans MS";
         ctx.fillStyle = "red";
-        ctx.fillText("Time Remaining: ", 450, 50);
+        ctx.fillText("Time Remaining: " + time, 425, 50);
 
         // Position title
-        ctx.font = '20px Arial, sans-serif';
-        ctx.fillStyle = "red";
+        ctx.font = '25px Comic Sans MS';
+        ctx.fillStyle = "green";
         ctx.fillText("Points: " + score, 750, 50);
 
         // sky area

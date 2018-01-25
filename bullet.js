@@ -18,15 +18,6 @@ function Bullet(ctx, width, height, playerX, bulletY, rockArray) {
     self.totalTime;
 };
 
-
-Bullet.prototype.draw = function () {
-
-    var self = this;
-
-    self.ctx.fillStyle = 'red';
-    self.ctx.fillRect(self.x, self.y, self.bulletWidth, self.bulletHeight);
-};
-
 Bullet.prototype.update = function () {
 
     var self = this;
@@ -40,4 +31,12 @@ Bullet.prototype.update = function () {
     }
 
     self.totalTime = self.timeLapse - self.startTime;
+};
+
+Bullet.prototype.draw = function () {
+
+    var self = this;
+
+    self.ctx.fillStyle = 'red';
+    self.ctx.fillRect(self.x, self.y, self.bulletWidth, self.bulletHeight);
 };

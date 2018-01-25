@@ -1,7 +1,7 @@
 
 'use strict';
 
-function Player(ctx, width, height) {
+function Player(ctx, width, height, inmortal) {
 
     var self = this;
 
@@ -13,7 +13,8 @@ function Player(ctx, width, height) {
     self.y = 470;
     self.bullet = null;
     self.lives = 3;
-    
+    self.gokuTime;
+    self.inmortal = inmortal;
 }
 
 Player.prototype.moveRight = function (code) {
@@ -41,6 +42,9 @@ Player.prototype.update = function () {
     if (self.x < 0) {
         self.x = 0;
     }
+
+    self.gokuTime = new Date();
+
 };
 
 Player.prototype.draw = function () {
@@ -50,3 +54,14 @@ Player.prototype.draw = function () {
     self.ctx.fillStyle = 'green';
     self.ctx.fillRect(self.x, 470, self.size, self.size);
 };
+
+Player.prototype.untouchable = function (time) {
+    
+    var self= this;
+    self.totalHitTime = time;
+
+    if (self.totalHitTime > 2000) {
+        self.inmortal = false;
+    }
+
+}
