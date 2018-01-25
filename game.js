@@ -16,7 +16,6 @@ function Game(mainElement) {
     self.rockWidth;
     self.rockHeight; 
 
-
     self.bullet;
     self.bulletY = 520;
     self.onEnd;
@@ -25,7 +24,10 @@ function Game(mainElement) {
     self.changeSize = 2;
     self.startHitTime;
     self.gameTime = 60;
-    self.totalHitTime
+    self.totalHitTime;
+
+    self.background = new Image();
+    self.background.src = './img/background2.jpg';
 
     self.rock = new Rock(self.ctx, self.width, self.height, self.rockStartPositionX, self.rockStartPositionY, self.rockWidth = 180, self.rockHeight = 180, true, self.rockArray);
 
@@ -55,7 +57,18 @@ function Game(mainElement) {
 
         // Code for shooting
         if (code === 87 || code === 38 || code === 32){
+
+            if (self.bullet) {
+                self.bullet.hit.currentTime = 0;
+            }
+
             self.bullet = new Bullet(self.ctx, self.width, self.height, self.player.x, self.bulletY);
+            
+            if (self.bullet.hit.paused) {
+                self.bullet.hit.play();
+            } else {
+                self.bullet.hit.currentTime = 0
+            }
         }
     });
 
@@ -76,8 +89,8 @@ function Game(mainElement) {
                     self.score += rock.rockWidth;
                     self.changeSize = 2;
 
-                    self.rock1 = new Rock(self.ctx, self.width, self.height, rock.rockX + 2 * (rock.rockWidth / self.changeSize), rock.rockY, rock.rockWidth / self.changeSize, rock.rockWidth / self.changeSize, true, self.rockArray);
-                    self.rock2 = new Rock(self.ctx, self.width, self.height, rock.rockX - 2 * (rock.rockWidth / self.changeSize), rock.rockY, rock.rockWidth / self.changeSize, rock.rockWidth / self.changeSize, false, self.rockArray);
+                    self.rock1 = new Rock(self.ctx, self.width, self.height, rock.rockX + rock.rockWidth / self.changeSize, rock.rockY, rock.rockWidth / self.changeSize, rock.rockWidth / self.changeSize, true, self.rockArray);
+                    self.rock2 = new Rock(self.ctx, self.width, self.height, rock.rockX - rock.rockWidth / self.changeSize, rock.rockY, rock.rockWidth / self.changeSize, rock.rockWidth / self.changeSize, false, self.rockArray);
 
                     self.rockArray.push(self.rock1);
                     self.rockArray.push(self.rock2);
@@ -196,12 +209,14 @@ function Game(mainElement) {
         ctx.fillText("Lives: " + lives, 20, 50);
 
         // Lives W/ Dragon Balls
+
+        
         for(let i = 1; i <= lives; i++){
 
             let spaceBetween = 35;
 
             ctx.beginPath();
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'orange';
             ctx.arc(110 + (spaceBetween * i), 40, 15, 0, Math.PI * 2);
             ctx.fill();
         }
@@ -214,7 +229,7 @@ function Game(mainElement) {
         // Time Remaining text
         ctx.font = "25px Comic Sans MS";
         ctx.fillStyle = "red";
-        ctx.fillText("Time Remaining:   " + time, 425, 50);
+        ctx.fillText("Time Remaining:  Infinity ", 425, 50);
 
         // Position title
         ctx.font = '25px Comic Sans MS';
@@ -223,11 +238,11 @@ function Game(mainElement) {
 
         // sky area
         ctx.fillStyle = "lightblue";
-        ctx.fillRect(0, 80, 900, 450);
+        ctx.drawImage(self.background, 0, 80, 900, 530);
 
-        // walking area
-        ctx.fillStyle = "brown";
-        ctx.fillRect(0, 520, 900, 80);
+        // // walking area
+        // ctx.fillStyle = "grey";
+        // ctx.fillRect(0, 520, 900, 80);
     };
 
     window.requestAnimationFrame(doFrame);

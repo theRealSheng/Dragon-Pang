@@ -15,7 +15,7 @@ body {
 button {
   color: white;
   background: green;
-  width: 100px;
+  width: 200px;
   height: 45px;
   display: flex;
   justify-content: center;
@@ -28,12 +28,14 @@ button {
 
 body {
   font-family: Helvetica, Arial, sans-serif;
-  background: grey;
+  background: darkblue;
   color: white;
   padding: 20px;
   display: flex;
   justify-content: center;
   margin-top: 30%;
+  background-image: url('./img/mainBackground.png');
+  background-repeat: no-repeat;
 }
 
 canvas {
@@ -41,4 +43,8 @@ canvas {
     width:900px;
     height: 600px;
     margin-top: -300px;
+}
+
+#game{
+  background-image: url('./img/ballImage.png');
 }

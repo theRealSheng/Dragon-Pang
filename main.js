@@ -6,7 +6,7 @@ function main() {
     var mainElement = document.querySelector('#site-main');
     var stage;
     var game;
-
+    var dragonBallSong = new Audio('./sounds/DragonBallISong.mp3');
     // -- SPLASH
 
     var splashElement;
@@ -30,7 +30,7 @@ function main() {
 
         // create button
         startGameButton = document.createElement('button');
-        startGameButton.innerText = 'start';
+        startGameButton.innerText = 'Start';
         splashElement.appendChild(startGameButton);
 
         // apppend to site-main
@@ -38,6 +38,8 @@ function main() {
 
         // bind click on start play button
         startGameButton.addEventListener('click', handleStartClick);
+
+        dragonBallSong.play();
     }
 
     function destroySplash() {
@@ -89,7 +91,7 @@ function main() {
         gameOverElement.appendChild(yourScore);
 
         playAgainButton = document.createElement('button');
-        playAgainButton.innerText = 'play again';
+        playAgainButton.innerText = 'Play Again';
         gameOverElement.appendChild(playAgainButton);
 
         // apppend to site-main

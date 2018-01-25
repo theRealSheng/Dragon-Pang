@@ -5,30 +5,34 @@ function Player(ctx, width, height) {
 
     var self = this;
 
-    self.size = 50;
+    self.size = 150;
     self.ctx = ctx;
     self.gameWidth = width;
     self.gameHeight = height;
-    self.x = self.gameWidth / 2;
-    self.y = 470;
+    self.x = self.gameWidth / 2 - 70;
+    self.y = 450;
     self.bullet = null;
     self.lives = 3;
     self.gokuTime;
     self.inmortal = false;
+
+    self.gokuOne = new Image();
+    self.gokuOne.src = './img/playerGoku.png';
+
 }
 
 Player.prototype.moveRight = function (code) {
 
     var self = this;
 
-    self.x += 10;
+    self.x += 15;
 };
 
 Player.prototype.moveLeft = function (code) {
 
     var self = this;
 
-    self.x -= 10;
+    self.x -= 15;
 };
 
 Player.prototype.update = function () {
@@ -50,9 +54,8 @@ Player.prototype.update = function () {
 Player.prototype.draw = function () {
 
     var self = this;
-
     self.ctx.fillStyle = 'green';
-    self.ctx.fillRect(self.x, 470, self.size, self.size);
+    self.ctx.drawImage(self.gokuOne, self.x, 450, self.size, self.size);
 };
 
 // Player.prototype.untouchable = function () {
