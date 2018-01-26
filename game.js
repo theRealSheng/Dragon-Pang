@@ -81,8 +81,8 @@ function Game(mainElement) {
 
             if (bullet.x + 70 < rock.rockX + rock.rockWidth &&
                 bullet.x + 70 + bullet.bulletWidth > rock.rockX &&
-                bullet.y - 30 > rock.rockY + rock.rockHeight &&
-                bullet.bulletHeight + bullet.y - 30 < rock.rockY) {
+                bullet.y > rock.rockY + rock.rockHeight &&
+                bullet.bulletHeight + bullet.y < rock.rockY) {
 
                     self.bullet = undefined;
 
