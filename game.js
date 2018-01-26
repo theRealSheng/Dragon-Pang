@@ -79,10 +79,10 @@ function Game(mainElement) {
 
         self.rockArray.forEach(rock => {
 
-            if (bullet.x < rock.rockX + rock.rockWidth &&
-                bullet.x + bullet.bulletWidth > rock.rockX &&
-                bullet.y > rock.rockY + rock.rockHeight &&
-                bullet.bulletHeight + bullet.y < rock.rockY) {
+            if (bullet.x + 70 < rock.rockX + rock.rockWidth &&
+                bullet.x + 70 + bullet.bulletWidth > rock.rockX &&
+                bullet.y - 30 > rock.rockY + rock.rockHeight &&
+                bullet.bulletHeight + bullet.y - 30 < rock.rockY) {
 
                     self.bullet = undefined;
 
@@ -212,8 +212,6 @@ function Game(mainElement) {
         ctx.fillText("Lives: " + lives, 20, 50);
 
         // Lives W/ Dragon Balls
-
-        
         for(let i = 1; i <= lives; i++){
 
             let spaceBetween = 35;
@@ -245,7 +243,7 @@ function Game(mainElement) {
 
         // // walking area
         // ctx.fillStyle = "grey";
-        // ctx.fillRect(0, 520, 900, 80);
+        // ctx.drawImage(,0, 520, 900, 80);
     };
 
     window.requestAnimationFrame(doFrame);
