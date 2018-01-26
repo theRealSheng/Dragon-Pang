@@ -6,7 +6,7 @@ function main() {
     var mainElement = document.querySelector('#site-main');
     var stage;
     var game;
-    var dragonBallSong = new Audio('./sounds/DragonBallISong.mp3');
+    var dragonBallSong = new Audio('./sounds/dragonSongCatala.mp3');
     // -- SPLASH
 
     var splashElement;
